@@ -7,7 +7,7 @@ output:
     keep_md: yes
 ---
 ## Introduction
-### 1. Source for this project are available here:
+### 1. Source for this project available here:
 The source for the training data is:
 https://d396qusza40orc.cloudfront.net/predmachlearn/pml-training.csv  
 The source for the test data is:
@@ -26,7 +26,7 @@ Our second step will be to read the data, partition the training dataset into 60
 
 Next we need to clean it from any NA values or anomalies, and reduce it to a workable size.  
 
-Our third step is to implement various machine learning algorithms, namely Decision Tree, Random Forest and Support Machine Vector to predic the testing dataset.  
+Our third step is to implement various machine learning algorithms, namely Decision Tree, Random Forest and Support Machine Vector to predict the testing dataset.  
 
 Our fourth step is to assess the performance and accuracy of these methods.  
 
@@ -39,7 +39,6 @@ Our fifth and final step is to use the algorithm with the highest accuracy to ef
 setwd("f://aquarius.fstruct//hobby//data science")
 library(caret) #For training datasets and applying machine learning algorithms
 library(ggplot2) #For awesome plotting
-library(pROC) # ROC curve plotting
 library(rpart)
 library(rpart.plot)
 library(rattle)
@@ -105,7 +104,7 @@ We will be exploring three distinct machine learning algorithms:
 * Support Machine Vector (svm)  
 
 ### 1. Decision Tree (rpart)
-```{r Decision Tree}
+```{r Decision Tree, fig.align = "center"}
 mod.train.dt <- train(classe ~ ., method = "rpart", data = trainData)
 mod.predict.dt <- predict(mod.train.dt, validData)
 cm.dt <- confusionMatrix(mod.predict.dt, validData$classe)
@@ -114,7 +113,7 @@ fancyRpartPlot(mod.train.dt$finalModel,cex=.5,under.cex=1,shadow.offset=0)
 ```  
 
 ### 2. Random Forest
-```{r Random Forest}
+```{r Random Forest, fig.align = "center"}
 mod.train.rf <- randomForest(classe ~ ., data = trainData, mtry = 3, ntree = 200, do.trace = 25)
 mod.predict.rf <- predict(mod.train.rf, validData)
 cm.rf <- confusionMatrix(mod.predict.rf, validData$classe)

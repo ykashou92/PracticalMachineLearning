@@ -1,7 +1,6 @@
 setwd("f://aquarius.fstruct//hobby//data science")
 library(caret) #For training datasets and applying machine learning & genetic algorithms
 library(ggplot2) #For awesome plotting
-library(pROC) # ROC curve plotting
 library(rpart)
 library(rpart.plot)
 library(rattle)

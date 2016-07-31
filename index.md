@@ -1,7 +1,7 @@
 # Practical Machine Learning Course Project
 Yanal Kashou  
 ## Introduction
-### 1. Source for this project are available here:
+### 1. Source for this project available here:
 The source for the training data is:
 https://d396qusza40orc.cloudfront.net/predmachlearn/pml-training.csv  
 The source for the test data is:
@@ -20,7 +20,7 @@ Our second step will be to read the data, partition the training dataset into 60
 
 Next we need to clean it from any NA values or anomalies, and reduce it to a workable size.  
 
-Our third step is to implement various machine learning algorithms, namely Decision Tree, Random Forest and Support Machine Vector to predic the testing dataset.  
+Our third step is to implement various machine learning algorithms, namely Decision Tree, Random Forest and Support Machine Vector to predict the testing dataset.  
 
 Our fourth step is to assess the performance and accuracy of these methods.  
 
@@ -34,7 +34,6 @@ Our fifth and final step is to use the algorithm with the highest accuracy to ef
 setwd("f://aquarius.fstruct//hobby//data science")
 library(caret) #For training datasets and applying machine learning algorithms
 library(ggplot2) #For awesome plotting
-library(pROC) # ROC curve plotting
 library(rpart)
 library(rpart.plot)
 library(rattle)
@@ -180,7 +179,7 @@ print(mod.train.dt$finalModel)
 fancyRpartPlot(mod.train.dt$finalModel,cex=.5,under.cex=1,shadow.offset=0)
 ```
 
-![](index_files/figure-html/Decision Tree-1.png)<!-- -->
+<img src="index_files/figure-html/Decision Tree-1.png" style="display: block; margin: auto;" />
 
 ### 2. Random Forest
 
@@ -233,7 +232,7 @@ head(imp.rf.arranged, 15)
 varImpPlot(mod.train.rf, n.var = 15, sort = TRUE, main = "Variable Importance", lcolor = "blue", bg = "purple")
 ```
 
-![](index_files/figure-html/Random Forest-1.png)<!-- -->
+<img src="index_files/figure-html/Random Forest-1.png" style="display: block; margin: auto;" />
 
 Using Random Forest we can find the importance of each variable independently from others. 
 
