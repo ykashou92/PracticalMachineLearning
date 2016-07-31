@@ -74,7 +74,13 @@ cm.dataframe <- data.frame(Algorithm = c("Decision Tree", "Random Forest", "Supp
 cm.dataframe <- arrange(cm.dataframe, desc(Accuracy))
 cm.dataframe
 
+# In sample Error Rate
+InSampError.rf <- (1 - 0.994)*100
+InSampError.rf
+
+# Out of sample Error Rate
+print(mod.train.rf)
+
 # Print Final Prediction Results of the Algorithm with Highest Accuracy (Random Forest)
 fp.rf <- predict(mod.train.rf, newdata=test)
 fp.rf
-

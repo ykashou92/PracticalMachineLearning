@@ -113,8 +113,9 @@ fancyRpartPlot(mod.train.dt$finalModel,cex=.5,under.cex=1,shadow.offset=0)
 ```  
 
 ### 2. Random Forest
-```{r Random Forest, fig.align = "center"}
-mod.train.rf <- randomForest(classe ~ ., data = trainData, mtry = 3, ntree = 200, do.trace = 25)
+#### Using `randomForest` package with 10-Fold Cross-Validation
+```{r Random Forest, fig.align = "center", }
+mod.train.rf <- randomForest(classe ~ ., data = trainData, mtry = 3, ntree = 200, do.trace = 25, cv.fold = 10)
 mod.predict.rf <- predict(mod.train.rf, validData)
 cm.rf <- confusionMatrix(mod.predict.rf, validData$classe)
 
@@ -123,8 +124,7 @@ imp.rf <- importance(mod.train.rf)
 imp.rf.arranged <- arrange(as.data.frame(imp.rf), desc(MeanDecreaseGini))
 head(imp.rf.arranged, 15)
 varImpPlot(mod.train.rf, n.var = 15, sort = TRUE, main = "Variable Importance", lcolor = "blue", bg = "purple")
-```  
-
+```
 Using Random Forest we can find the importance of each variable independently from others. 
 
 ### 3. Support Vector Machine
@@ -147,8 +147,31 @@ cm.dataframe
 ```
 We can clearly see that Random Forest has the highest accuracy at ~ 99.4%, followed by Support Vector Machine at ~ 94.6%. Decision Tree gave us the lowest accuracy at ~ 47.7%.
 
+***  
+
+## Errors
+### In Sample Error
+```{r In Sample Error}
+# In sample Error Rate
+InSampError.rf <- (1 - 0.994)*100
+InSampError.rf
+```
+We can see that the In Sample error is 0.6%
+
+### Out of Sample Error
+```{r Out of Sample Error}
+# Out of sample Error Rate
+print(mod.train.rf)
+```
+We can see that the OOB (Out of Bag) or Out of Sample Error of Random Forest with 10-Fold Cross Validation is 0.53%, which is consistent with the confusion matrix.
+
+However, it is worthy to note that Random Forest OOB estimation does not require Cross Validation to decrease bias.
+
+The In Sample Error is actually higher than the OOB, which is definitely considered an anomaly. It might be due to variance in the estimation of the error rates or due to overfitting. Nonetheless our prediction in the next section proves our model highly accurate.
+
 ***
-## Final Prediction
+
+## Final Prediction Using Random Forest
 
 Prediction Results of Algorithm with Highest Accuracy (Random Forest)
 ```{r Final Prediction}

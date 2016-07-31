@@ -182,9 +182,10 @@ fancyRpartPlot(mod.train.dt$finalModel,cex=.5,under.cex=1,shadow.offset=0)
 <img src="index_files/figure-html/Decision Tree-1.png" style="display: block; margin: auto;" />
 
 ### 2. Random Forest
+#### Using `randomForest` package with 10-Fold Cross-Validation
 
 ```r
-mod.train.rf <- randomForest(classe ~ ., data = trainData, mtry = 3, ntree = 200, do.trace = 25)
+mod.train.rf <- randomForest(classe ~ ., data = trainData, mtry = 3, ntree = 200, do.trace = 25, cv.fold = 10)
 ```
 
 ```
@@ -233,7 +234,6 @@ varImpPlot(mod.train.rf, n.var = 15, sort = TRUE, main = "Variable Importance", 
 ```
 
 <img src="index_files/figure-html/Random Forest-1.png" style="display: block; margin: auto;" />
-
 Using Random Forest we can find the importance of each variable independently from others. 
 
 ### 3. Support Vector Machine
@@ -265,8 +265,55 @@ cm.dataframe
 ```
 We can clearly see that Random Forest has the highest accuracy at ~ 99.4%, followed by Support Vector Machine at ~ 94.6%. Decision Tree gave us the lowest accuracy at ~ 47.7%.
 
+***  
+
+## Errors
+### In Sample Error
+
+```r
+# In sample Error Rate
+InSampError.rf <- (1 - 0.994)*100
+InSampError.rf
+```
+
+```
+## [1] 0.6
+```
+We can see that the In Sample error is 0.6%
+
+### Out of Sample Error
+
+```r
+# Out of sample Error Rate
+print(mod.train.rf)
+```
+
+```
+## 
+## Call:
+##  randomForest(formula = classe ~ ., data = trainData, mtry = 3,      ntree = 200, do.trace = 25, cv.fold = 10) 
+##                Type of random forest: classification
+##                      Number of trees: 200
+## No. of variables tried at each split: 3
+## 
+##         OOB estimate of  error rate: 0.46%
+## Confusion matrix:
+##      A    B    C    D    E class.error
+## A 3348    0    0    0    0 0.000000000
+## B    7 2269    3    0    0 0.004387889
+## C    0    9 2044    1    0 0.004868549
+## D    0    0   27 1902    1 0.014507772
+## E    0    0    1    5 2159 0.002771363
+```
+We can see that the OOB (Out of Bag) or Out of Sample Error of Random Forest with 10-Fold Cross Validation is 0.53%, which is consistent with the confusion matrix.
+
+However, it is worthy to note that Random Forest OOB estimation does not require Cross Validation to decrease bias.
+
+The In Sample Error is actually higher than the OOB, which is definitely considered an anomaly. It might be due to variance in the estimation of the error rates or due to overfitting. Nonetheless our prediction in the next section proves our model highly accurate.
+
 ***
-## Final Prediction
+
+## Final Prediction Using Random Forest
 
 Prediction Results of Algorithm with Highest Accuracy (Random Forest)
 
