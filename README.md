@@ -7,5 +7,5 @@ Repository for JHU Coursera Practical Machine Learning
 `index.md` is the generated report in markdown  
 `index.html` is the html report in raw form  
   
-Please see `index.md` to view, or...  
+To view, please see `index.md`, or...  
 Open http://htmlpreview.github.io/, copy and paste the link of `index.html` into the field. And that should preview the html file.
