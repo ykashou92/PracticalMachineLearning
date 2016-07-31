@@ -305,7 +305,7 @@ print(mod.train.rf)
 ## D    0    0   27 1902    1 0.014507772
 ## E    0    0    1    5 2159 0.002771363
 ```
-We can see that the OOB (Out of Bag) or Out of Sample Error of Random Forest with 10-Fold Cross Validation is 0.53%, which is consistent with the confusion matrix.
+We can see that the OOB (Out of Bag) or Out of Sample Error of Random Forest with 10-Fold Cross Validation is 0.46%, which is consistent with the confusion matrix.
 
 However, it is worthy to note that Random Forest OOB estimation does not require Cross Validation to decrease bias.
 
