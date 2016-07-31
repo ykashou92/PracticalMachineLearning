@@ -72,7 +72,8 @@ a.rf <- cm.rf$overall[1]
 a.svm <- cm.svm$overall[1]
 
 cm.dataframe <- data.frame(Algorithm = c("Decision Tree", "Random Forest", "Support Vector Machine"), Index = c("dt", "rf", "svm"), Accuracy = c(a.dt, a.rf, a.svm))
-View(cm.dataframe)
+cm.dataframe <- arrange(cm.dataframe, desc(Accuracy))
+cm.dataframe
 
 # Print Final Prediction Results of the Algorithm with Highest Accuracy (Random Forest)
 fp.rf <- predict(mod.train.rf, newdata=test)

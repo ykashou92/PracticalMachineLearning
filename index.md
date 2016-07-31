@@ -11,6 +11,21 @@ https://d396qusza40orc.cloudfront.net/predmachlearn/pml-testing.csv
 Many thanks to the authors for providing this dataset for free use.   http://groupware.les.inf.puc-rio.br/har  
 Velloso, E.; Bulling, A.; Gellersen, H.; Ugulino, W.; Fuks, H. __Qualitative Activity Recognition of Weight Lifting Exercises__. Proceedings of 4th International Conference in Cooperation with SIGCHI (Augmented Human '13) . Stuttgart, Germany: ACM SIGCHI, 2013. 
 
+## Synopsis
+In this project we are going to attempt to predict the testing dataset provided through the link above, through the training dataset also provided.  
+
+Our first step will be to load the necessary libraries for our analysis.  
+
+Our second step will be to read the data, partition the training dataset into 60% training and 40% validation.  
+
+Next we need to clean it from any NA values or anomalies, and reduce it to a workable size.  
+
+Our third step is to implement various machine learning algorithms, namely Decision Tree, Random Forest and Support Machine Vector to predic the testing dataset.  
+
+Our fourth step is to assess the performance and accuracy of these methods.  
+
+Our fifth and final step is to use the algorithm with the highest accuracy to effectively and accurately predict the test dataset provided.  
+
 ***  
 
 ## Libraries and Extras
@@ -29,7 +44,7 @@ library(dplyr)
 set.seed(111)
 ```
 ***
-## Data Loading, Cleaning and Exploratory Analysis
+## Data Loading, Cleaning and Partitioning
 ### 1. Loading and Cleaning
 
 ```r
@@ -37,10 +52,14 @@ set.seed(111)
 url0 <- "https://d396qusza40orc.cloudfront.net/predmachlearn/pml-training.csv" 
 url1 <- "https://d396qusza40orc.cloudfront.net/predmachlearn/pml-testing.csv"
 
-# Download and Parition dataset
+# Download and read datasets
 train <- read.csv(url(url0))
 test <- read.csv(url(url1))
+```
 
+### 2. Partitioning
+
+```r
 #Partition the training data into 60% training and 40% validation and check dimensions.
 trainIndex <- createDataPartition(train$classe, p = .60, list = FALSE)
 trainData <- train[ trainIndex, ]
@@ -60,10 +79,9 @@ dim(validData)
 ## [1] 7846  160
 ```
 
-```r
-#trainData$classe <- as.factor(trainData$classe)
-#validData$classe <- as.factor(validData$classe)
+### 3. Cleaning
 
+```r
 # Both return 160 variables, many of which are filled with NA records
 # If over 90% of a variable is filled with NA then it is omitted from the training and test datasets
 
@@ -122,15 +140,16 @@ dim(validData)
 ```
 ## [1] 7846   54
 ```
-
-```r
-# we have now managed to reduce the number of variables from 160 to 54 and since both the `validData` and `trainData` have an equal number of variables, we can explore correlation in an easier fashion.
-```
-
-### 2. Exploring Correlations
+We have now managed to reduce the number of variables from 160 to 54 and since both the `validData` and `trainData` have an equal number of variables, we can implement our prediction algorithms in an easier fashion.
 
 ***
 ## Prediction Algorithms
+
+We will be exploring three distinct machine learning algorithms:  
+* Decision Tree (rpart)  
+* Random Forest (randomForest)  
+* Support Machine Vector (svm)  
+
 ### 1. Decision Tree (rpart)
 
 ```r
@@ -235,22 +254,24 @@ a.rf <- cm.rf$overall[1]
 a.svm <- cm.svm$overall[1]
 
 cm.dataframe <- data.frame(Algorithm = c("Decision Tree", "Random Forest", "Support Vector Machine"), Index = c("dt", "rf", "svm"), Accuracy = c(a.dt, a.rf, a.svm))
+cm.dataframe <- arrange(cm.dataframe, desc(Accuracy))
 cm.dataframe
 ```
 
 ```
 ##                Algorithm Index  Accuracy
-## 1          Decision Tree    dt 0.4768035
-## 2          Random Forest    rf 0.9940097
-## 3 Support Vector Machine   svm 0.9463421
+## 1          Random Forest    rf 0.9940097
+## 2 Support Vector Machine   svm 0.9463421
+## 3          Decision Tree    dt 0.4768035
 ```
 We can clearly see that Random Forest has the highest accuracy at ~ 99.4%, followed by Support Vector Machine at ~ 94.6%. Decision Tree gave us the lowest accuracy at ~ 47.7%.
 
 ***
 ## Final Prediction
 
+Prediction Results of Algorithm with Highest Accuracy (Random Forest)
+
 ```r
-# Print Final Prediction Results of Algorithm with Highest Accuracy
 fp.rf <- predict(mod.train.rf, newdata=test)
 fp.rf
 ```
@@ -260,4 +281,5 @@ fp.rf
 ##  B  A  B  A  A  E  D  B  A  A  B  C  B  A  E  E  A  B  B  B 
 ## Levels: A B C D E
 ```
+  
 Using Random Forest to predict our Testing Dataset is the best decision. And it accurately predicted all 20 cases.
